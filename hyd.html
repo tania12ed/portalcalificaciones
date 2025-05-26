@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ingreso de Calificaciones - Verde CONALEP</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #e2f0e8; /* verde muy claro */
+      margin: 0;
+      padding: 30px;
+      color: #004225; /* verde CONALEP */
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #004225;
+      margin-bottom: 30px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #006633; /* un verde CONALEP un poco más brillante */
+    }
+
+    select {
+      width: 100%;
+      max-width: 300px;
+      padding: 8px 12px;
+      border: 1.8px solid #7bc47f;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: white;
+      transition: border-color 0.3s ease;
+      cursor: pointer;
+    }
+    select:focus {
+      outline: none;
+      border-color: #004225;
+      box-shadow: 0 0 6px rgba(0, 66, 37, 0.7);
+    }
+
+    #calificaciones-container {
+      margin-top: 30px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,66,37,0.15);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #004225;
+      border-bottom: 3px solid #006633;
+      padding-bottom: 6px;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      margin-top: 15px;
+    }
+
+    th {
+      background-color: #004225;
+      color: white;
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 15px;
+      border-radius: 8px 8px 0 0;
+      user-select: none;
+    }
+
+    tbody tr {
+      background: #c6e6ca;
+      transition: background-color 0.2s ease;
+    }
+    tbody tr:hover {
+      background: #a0cca1;
+    }
+
+    td {
+      padding: 12px 15px;
+      vertical-align: middle;
+    }
+
+    input[type=number] {
+      width: 80px;
+      padding: 6px 10px;
+      border: 1.5px solid #7bc47f;
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: center;
+      transition: border-color 0.3s ease;
+    }
+    input[type=number]:focus {
+      outline: none;
+      border-color: #004225;
+      box-shadow: 0 0 6px rgba(0, 66, 37, 0.7);
+    }
+
+    button[type=submit] {
+      margin-top: 20px;
+      background-color: #004225;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button[type=submit]:hover {
+      background-color: #00331a;
+    }
+
+    #resultado {
+      max-width: 600px;
+      margin: 30px auto 0 auto;
+      padding: 20px;
+      background: #b6d7b5;
+      border-radius: 10px;
+      color: #004225;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 66, 37, 0.2);
+    }
+    #resultado h3 {
+      margin-top: 0;
+      color: #004225;
+    }
+
+    #resultado ul {
+      padding-left: 20px;
+      margin: 10px 0 0 0;
+    }
+    #resultado li {
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      #calificaciones-container, #resultado {
+        padding: 15px;
+        margin: 15px 10px 0 10px;
+      }
+      input[type=number] {
+        width: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Ingreso de Calificaciones</h1>
+
+  <label for="grupo">Selecciona el grupo:</label>
+  <select id="grupo" aria-label="Selecciona el grupo">
+    <option value="">-- Selecciona un grupo --</option>
+  </select>
+
+  <label for="materia">Selecciona la materia:</label>
+  <select id="materia" aria-label="Selecciona la materia">
+    <option value="">-- Selecciona una materia --</option>
+  </select>
+
+  <div id="calificaciones-container" style="display:none;">
+    <h2>Calificaciones</h2>
+    <form id="form-calificaciones" aria-label="Formulario para ingresar calificaciones">
+      <table id="tabla-alumnos" aria-describedby="tabla-alumnos">
+        <thead>
+          <tr><th>Alumno</th><th>Calificación (0-10)</th></tr>
+        </thead>
+        <tbody>
+          <!-- Aquí van los alumnos -->
+        </tbody>
+      </table>
+      <button type="submit">Guardar Calificaciones</button>
+    </form>
+  </div>
+
+  <div id="resultado" role="region" aria-live="polite"></div>
+
+<script>
+  // Datos ejemplo
+  const datosAlumnos = {
+    "604": ["Ana Martinez", "Luis Torres", "Pedro Medina"],
+    "506": ["Marta Jimenez", "Juan Hernandez", "Sofía Tuz"],
+"202": ["Cristina Chan", "Julian Alcudia", "Tania Muñoz"],
+    "605": ["Wendy Canul", "Alejandro Perez", "Shadany Ramirez"],
+"212": ["Daniel Martin", "Alexis Dzib", "Efrain Godinez"]
+  };
+
+  const materias = ["Matemáticas", "Historia", "Ciencias"];
+
+  // Rellenar select de grupos
+  const selectGrupo = document.getElementById('grupo');
+  for (const grupo in datosAlumnos) {
+    const option = document.createElement('option');
+    option.value = grupo;
+    option.textContent = grupo;
+    selectGrupo.appendChild(option);
+  }
+
+  // Rellenar select de materias
+  const selectMateria = document.getElementById('materia');
+  materias.forEach(m => {
+    const option = document.createElement('option');
+    option.value = m;
+    option.textContent = m;
+    selectMateria.appendChild(option);
+  });
+
+  const containerCalificaciones = document.getElementById('calificaciones-container');
+  const tablaAlumnosBody = document.querySelector('#tabla-alumnos tbody');
+  const formCalificaciones = document.getElementById('form-calificaciones');
+  const resultadoDiv = document.getElementById('resultado');
+
+  function limpiarTabla() {
+    tablaAlumnosBody.innerHTML = '';
+  }
+
+  // Mostrar alumnos y inputs cuando grupo y materia estén seleccionados
+  function mostrarFormulario() {
+    const grupoSeleccionado = selectGrupo.value;
+    const materiaSeleccionada = selectMateria.value;
+
+    if (grupoSeleccionado && materiaSeleccionada) {
+      limpiarTabla();
+      const alumnos = datosAlumnos[grupoSeleccionado];
+      alumnos.forEach((alumno, i) => {
+        const fila = document.createElement('tr');
+
+        const tdNombre = document.createElement('td');
+        tdNombre.textContent = alumno;
+
+        const tdInput = document.createElement('td');
+        const inputNota = document.createElement('input');
+        inputNota.type = 'number';
+        inputNota.name = `nota-${i}`;
+        inputNota.min = 0;
+        inputNota.max = 10;
+        inputNota.step = 0.1;
+        inputNota.required = true;
+        tdInput.appendChild(inputNota);
+
+        fila.appendChild(tdNombre);
+        fila.appendChild(tdInput);
+
+        tablaAlumnosBody.appendChild(fila);
+      });
+
+      containerCalificaciones.style.display = 'block';
+      resultadoDiv.innerHTML = '';
+    } else {
+      containerCalificaciones.style.display = 'none';
+      limpiarTabla();
+      resultadoDiv.innerHTML = '';
+    }
+  }
+
+  selectGrupo.addEventListener('change', mostrarFormulario);
+  selectMateria.addEventListener('change', mostrarFormulario);
+
+  formCalificaciones.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const grupo = selectGrupo.value;
+    const materia = selectMateria.value;
+    const alumnos = datosAlumnos[grupo];
+    const formData = new FormData(formCalificaciones);
+
+    let calificaciones = [];
+
+    for(let i = 0; i < alumnos.length; i++) {
+      const nota = parseFloat(formData.get(`nota-${i}`));
+      if (isNaN(nota) || nota < 0 || nota > 10) {
+        alert(`La calificación para ${alumnos[i]} debe estar entre 0 y 10.`);
+        return;
+      }
+      calificaciones.push({ alumno: alumnos[i], nota });
+    }
+
+    // Mostrar resultados
+    let html = `<h3>Calificaciones para ${materia} del ${grupo}</h3><ul>`;
+    calificaciones.forEach(c => {
+      html += `<li>${c.alumno}: ${c.nota.toFixed(1)}</li>`;
+    });
+    html += '</ul>';
+
+    resultadoDiv.innerHTML = html;
+  });
+</script>
+
+</body>
+</html>

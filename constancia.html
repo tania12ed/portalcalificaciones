@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Constancia Escolar - CONALEP</title>
+
+  <!-- Librerías necesarias -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #f4f4f4;
+      padding: 40px;
+    }
+    .formulario {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      border: 2px solid #006937;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .acciones {
+      text-align: center;
+      margin-top: 20px;
+    }
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 16px;
+      background-color: #006937;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #05472a;
+    }
+    .constancia {
+      display: none;
+      width: 100%;
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 60px 50px;
+      border: 2px solid #2c3e50;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+      font-family: 'Georgia', serif;
+      color: #000;
+      box-sizing: border-box;
+    }
+    .encabezado {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .encabezado img {
+      height: 80px;
+    }
+    .titulo-centro {
+      margin: 30px 0 10px 0;
+      font-size: 18px;
+    }
+    .titulo-constancia {
+      font-size: 28px;
+      color: #006937;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .nombre {
+      font-size: 24px;
+      color: #006937;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .contenido {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    .firma {
+      margin-top: 60px;
+      font-size: 16px;
+    }
+    .firma strong {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="formulario">
+    <h2 style="text-align:center; color:#006937;">Datos para la Constancia</h2>
+    <label>Nombre del alumno:</label>
+    <input type="text" id="inputNombre" required />
+    <label>Matrícula:</label>
+    <input type="text" id="inputMatricula" required />
+    <label>Curso o grado:</label>
+    <input type="text" id="inputCurso" required />
+    <label>Institución:</label>
+    <input type="text" id="inputInstitucion" required />
+    <label>Ciudad:</label>
+    <input type="text" id="inputCiudad" required />
+    <label>Fecha:</label>
+    <input
+      type="text"
+      id="inputFecha"
+      placeholder="Ej: 19 de mayo de 2025"
+      required
+    />
+    <label>Nombre del Director:</label>
+    <input
+      type="text"
+      id="inputDirector"
+      value="Mtro. Juan Pérez Martínez"
+      required
+    />
+    <label>Nombre del Plantel:</label>
+    <input type="text" id="inputPlantel" required />
+    <div class="acciones">
+      <button onclick="generarConstancia()">Generar Constancia</button>
+      <button onclick="guardarPDF()">Guardar como PDF</button>
+    </div>
+  </div>
+
+  <div class="constancia" id="constancia">
+    <div class="encabezado">
+      <img
+        src="https://conalep.qroo.gob.mx/wp-content/uploads/2024/08/286.-Cancun-II_h2.png"
+        alt="Logo Conalep"
+      />
+      <img
+        src="https://cgc.qroo.gob.mx/cjg/wp-content/uploads/2021/04/escudo-ve.png"
+        alt="Escudo NL"
+      />
+    </div>
+
+    <div class="titulo-centro">
+      El Colegio de Educación Profesional Técnica del Estado de
+      <span id="ciudadTexto"></span><br />
+      otorga la presente
+    </div>
+
+    <div class="titulo-constancia">CONSTANCIA</div>
+
+    <div class="nombre" id="nombreAlumno"></div>
+
+    <div class="contenido" id="contenidoConstancia"></div>
+
+    <div class="firma">
+      ___________________________<br />
+      <strong id="nombreDirector"></strong><br />
+      Director del Plantel <span id="nombrePlantel"></span>
+    </div>
+  </div>
+
+  <script>
+    function generarConstancia() {
+      const nombre = document.getElementById("inputNombre").value;
+      const matricula = document.getElementById("inputMatricula").value;
+      const curso = document.getElementById("inputCurso").value;
+      const institucion = document.getElementById("inputInstitucion").value;
+      const ciudad = document.getElementById("inputCiudad").value;
+      const fecha = document.getElementById("inputFecha").value;
+      const director = document.getElementById("inputDirector").value;
+      const plantel = document.getElementById("inputPlantel").value;
+
+      document.getElementById("nombreAlumno").innerText = nombre;
+      document.getElementById("ciudadTexto").innerText = ciudad;
+      document.getElementById("nombreDirector").innerText = director;
+      document.getElementById("nombrePlantel").innerText = plantel;
+
+      const texto = `
+        Por haber concluido satisfactoriamente sus estudios de <strong>${curso}</strong><br />
+        en la institución <strong>${institucion}</strong>, con matrícula <strong>${matricula}</strong>.<br /><br />
+        Se expide la presente constancia para los fines que al interesado convengan.<br /><br />
+        Dado en la ciudad de <strong>${ciudad}</strong>, el <strong>${fecha}</strong>.
+      `;
+
+      document.getElementById("contenidoConstancia").innerHTML = texto;
+      document.getElementById("constancia").style.display = "block";
+    }
+
+    async function guardarPDF() {
+      const constancia = document.getElementById("constancia");
+      constancia.style.display = "block";
+
+      const canvas = await html2canvas(constancia, {
+        scale: 2,
+        useCORS: true,
+        scrollY: -window.scrollY,
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      const pdf = new jspdf.jsPDF("p", "mm", "a4");
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const margin = 10; // margen en mm
+
+      const availableWidth = pdfWidth - margin * 2;
+      const availableHeight = pdfHeight - margin * 2;
+
+      const imgRatio = canvas.width / canvas.height;
+      let imgPDFWidth = availableWidth;
+      let imgPDFHeight = imgPDFWidth / imgRatio;
+
+      if (imgPDFHeight > availableHeight) {
+        imgPDFHeight = availableHeight;
+        imgPDFWidth = imgPDFHeight * imgRatio;
+      }
+
+      const x = (pdfWidth - imgPDFWidth) / 2;
+      const y = (pdfHeight - imgPDFHeight) / 2;
+
+      pdf.addImage(imgData, "JPEG", x, y, imgPDFWidth, imgPDFHeight);
+      pdf.save("constancia_conalep.pdf");
+    }
+  </script>
+</body>
+</html>

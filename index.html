@@ -1,1 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Alumnos y Maestros</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #eafaf1;
+      color: #333;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
+    h1, h2 {
+      color: #2e7d32;
+    }
+
+    .menu, .formulario {
+      margin-top: 20px;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .menu-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      margin: 10px 0;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #d0f0dc;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+
+    .btn-volver {
+      background-color: #81c784;
+    }
+
+    .btn-volver:hover {
+      background-color: #66bb6a;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Registro</h1>
+
+  <!-- Menú de selección -->
+  <div class="menu">
+    <div class="menu-buttons">
+      <button onclick="mostrarFormulario('alumno')">Soy Alumno</button>
+      <button onclick="mostrarFormulario('maestro')">Soy Maestro</button>
+    </div>
+  </div>
+
+  <!-- Formulario Alumno -->
+  <div id="formularioAlumno" class="formulario hidden">
+    <h2>Registro de Alumno</h2>
+    <input type="text" id="nombreAlumno" placeholder="Nombre del alumno">
+    <input type="text" id="matriculaAlumno" placeholder="Matrícula">
+    <input type="text" id="turnoAlumno" placeholder="Turno">
+    <input type="text" id="curpAlumno" placeholder="CURP">
+    <button onclick="registrar('alumno')">Registrar Alumno</button>
+    <ul id="listaAlumnos"></ul>
+    <button class="btn-volver" onclick="volverMenu()">Volver al menú</button>
+  </div>
+
+  <!-- Formulario Maestro -->
+  <div id="formularioMaestro" class="formulario hidden">
+    <h2>Registro de Maestro</h2>
+    <input type="text" id="nombreMaestro" placeholder="Nombre del maestro">
+    <input type="text" id="idMaestro" placeholder="ID de Maestro">
+    <input type="text" id="turnoMaestro" placeholder="Turno">
+    <input type="text" id="rfcMaestro" placeholder="RFC">
+    <button onclick="registrar('maestro')">Registrar Maestro</button>
+    <ul id="listaMaestros"></ul>
+    <button class="btn-volver" onclick="volverMenu()">Volver al menú</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function mostrarFormulario(tipo) {
+      document.querySelector('.menu').classList.add('hidden');
+      if (tipo === 'alumno') {
+        document.getElementById('formularioAlumno').classList.remove('hidden');
+      } else if (tipo === 'maestro') {
+        document.getElementById('formularioMaestro').classList.remove('hidden');
+      }
+    }
+
+    function volverMenu() {
+      document.querySelector('.menu').classList.remove('hidden');
+      document.getElementById('formularioAlumno').classList.add('hidden');
+      document.getElementById('formularioMaestro').classList.add('hidden');
+    }
+
+    function registrar(tipo) {
+      if (tipo === 'alumno') {
+        const nombre = document.getElementById('nombreAlumno').value.trim();
+        const matricula = document.getElementById('matriculaAlumno').value.trim();
+        const turno = document.getElementById('turnoAlumno').value.trim();
+        const curp = document.getElementById('curpAlumno').value.trim();
+
+        if (nombre && matricula && turno && curp) {
+          const li = document.createElement('li');
+          li.textContent = Nombre: ${nombre}, Matrícula: ${matricula}, Turno: ${turno}, CURP: ${curp};
+          document.getElementById('listaAlumnos').appendChild(li);
+
+          document.getElementById('nombreAlumno').value = "";
+          document.getElementById('matriculaAlumno').value = "";
+          document.getElementById('turnoAlumno').value = "";
+          document.getElementById('curpAlumno').value = "";
+
+          setTimeout(() => {
+            window.location.href = "menuPrincipal2.html";
+          }, 1000);
+        } else {
+          alert("Por favor, llena todos los campos del alumno.");
+        }
+
+      } else if (tipo === 'maestro') {
+        const nombre = document.getElementById('nombreMaestro').value.trim();
+        const id = document.getElementById('idMaestro').value.trim();
+        const turno = document.getElementById('turnoMaestro').value.trim();
+        const rfc = document.getElementById('rfcMaestro').value.trim();
+
+        if (nombre && id && turno && rfc) {
+          const li = document.createElement('li');
+          li.textContent = Nombre: ${nombre}, ID: ${id}, Turno: ${turno}, RFC: ${rfc};
+          document.getElementById('listaMaestros').appendChild(li);
+
+          document.getElementById('nombreMaestro').value = "";
+          document.getElementById('idMaestro').value = "";
+          document.getElementById('turnoMaestro').value = "";
+          document.getElementById('rfcMaestro').value = "";
+
+          setTimeout(() => {
+            window.location.href = "menuPrincipal.html";
+          }, 1000);
+        } else {
+          alert("Por favor, llena todos los campos del maestro.");
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

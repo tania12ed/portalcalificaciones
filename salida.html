@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pase de Salida</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #e8f5e9;
+      color: #1b5e20;
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto 40px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      color: #2e7d32;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #388e3c;
+      text-align: left;
+      margin-left: 5%;
+    }
+
+    input, textarea {
+      width: 90%;
+      padding: 6px;
+      margin-top: 4px;
+      box-sizing: border-box;
+      border: 1px solid #a5d6a7;
+      border-radius: 4px;
+      background-color: #f1f8f4;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-right: 10px;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+
+    .pase {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #43a047;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      display: none;
+      color: #000;
+      text-align: left;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px;
+    }
+
+    .titulo {
+      text-align: center;
+      font-weight: bold;
+      text-decoration: underline;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    .campo {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .firma {
+      text-align: center;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+
+    .nombre {
+      text-align: center;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="formulario">
+    <h2>Llenar Pase de Salida</h2>
+    <label>Fecha:
+      <input type="text" id="fecha" placeholder="Ej. 19 de mayo del 2025">
+    </label>
+    <label>Semestre:
+      <input type="text" id="semestre">
+    </label>
+    <label>Nombre:
+      <input type="text" id="nombre">
+    </label>
+    <label>Lugar de asignación:
+      <input type="text" id="lugar" value="Orientación">
+    </label>
+    <label>Hora de salida:
+      <input type="text" id="horaSalida">
+    </label>
+    <label>Motivo:
+      <textarea id="motivo"></textarea>
+    </label>
+    <label>Quien autoriza:
+      <input type="text" id="quienAutoriza">
+    </label>
+    <button type="button" onclick="generarPase()">Generar Pase</button>
+    <button type="button" onclick="descargarPDF()">Descargar PDF</button>
+    <button type="button" onclick="window.print()">Imprimir</button>
+  </form>
+
+  <div class="pase" id="pase">
+    <img src="https://1000marcas.net/wp-content/uploads/2022/02/CONALEP-Logo.png" class="logo" alt="Logotipo">
+    <div class="titulo">PASE DE SALIDA</div>
+    <div class="campo">Fecha: <span id="p_fecha"></span></div>
+    <div class="campo">Semestre: <span id="p_semestre"></span></div>
+    <div class="campo">Nombre: <span id="p_nombre"></span></div>
+    <div class="campo">Lugar de asignación: <span id="p_lugar"></span></div>
+    <div class="campo">Hora de salida: <span id="p_horaSalida"></span></div>
+    <div class="campo">Motivo: <span id="p_motivo"></span></div>
+    <div class="campo">Quien autoriza: <span id="p_quienAutoriza"></span></div>
+
+    <div class="firma">DOCTOR / DIRECTOR</div>
+    <div class="nombre">Camilo</div>
+  </div>
+
+  <script>
+    function generarPase() {
+      document.getElementById('p_fecha').innerText = document.getElementById('fecha').value;
+      document.getElementById('p_semestre').innerText = document.getElementById('semestre').value;
+      document.getElementById('p_nombre').innerText = document.getElementById('nombre').value;
+      document.getElementById('p_lugar').innerText = document.getElementById('lugar').value;
+      document.getElementById('p_horaSalida').innerText = document.getElementById('horaSalida').value;
+      document.getElementById('p_motivo').innerText = document.getElementById('motivo').value;
+      document.getElementById('p_quienAutoriza').innerText = document.getElementById('quienAutoriza').value;
+      document.getElementById('pase').style.display = 'block';
+    }
+
+    function descargarPDF() {
+      const pase = document.getElementById("pase");
+
+      // Llenar datos del pase antes de mostrar
+      generarPase();
+
+      // Mostrar el pase temporalmente
+      pase.style.display = 'block';
+
+      // Dar tiempo para renderizar antes de generar el PDF
+      setTimeout(() => {
+        html2pdf().set({
+          margin: 0.5,
+          filename: 'pase_de_salida.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        }).from(pase).save().then(() => {
+          // Ocultar el pase nuevamente si lo deseas
+          pase.style.display = 'none';
+        });
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>

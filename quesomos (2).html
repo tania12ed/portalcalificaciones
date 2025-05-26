@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CONALEP Cancún II</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    h1 {
+      color: #388e3c;
+    }
+
+    h2 {
+      color: #43a047;
+    }
+
+    h3 {
+      margin-top: 40px;
+      color: #2e7d32;
+    }
+
+    .carrera {
+      margin-bottom: 40px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .carrera img {
+      width: 100px;
+      height: 100px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .carrera img:hover {
+      transform: scale(1.1);
+    }
+
+    .carrera p {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #2e7d32;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    /* Tooltip (conservado, no usado actualmente) */
+    .tooltip {
+      position: absolute;
+      background-color: #388e3c;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 14px;
+      top: 50%;
+      left: 110%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -6px;
+      transform: translateY(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent #388e3c transparent transparent;
+    }
+
+    .img-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .img-container:hover .tooltip {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CONALEP Cancún II</h1>
+    <p>Brindamos carreras como:</p>
+
+    <div class="carrera">
+      <h2>Expresión Gráfica Digital</h2>
+      <div class="img-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyRiWQniRYOSvICTwkOV7k3dAZ7GmPs9tZhA&s" alt="Expresión Gráfica Digital">
+      </div>
+      <p>¿Te encanta dibujar, diseñar y dar vida a tus ideas en una pantalla? ¡Esta es tu carrera! Aprenderás a crear ilustraciones increíbles, animaciones que te dejarán boquiabierto y sitios web atractivos. Conviértete en un artista digital y deja tu huella en el cine, los videojuegos o la publicidad. ¡Tu creatividad será tu mejor herramienta!</p>
+    </div>
+
+    <div class="carrera">
+      <h2>Informática</h2>
+      <div class="img-container">
+        <img src="https://www.agalisa.es/wp-content/uploads/2023/04/carrera-1.jpg" alt="Informática">
+      </div>
+      <p>Explora programación, redes de computadoras, soporte técnico y herramientas digitales. Aprende a desarrollar software, construir sitios web y solucionar problemas tecnológicos del mundo real. ¡La tecnología está en tus manos!</p>
+    </div>
+
+    <div class="carrera">
+      <h2>Administración</h2>
+      <div class="img-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs7vh5aZhdpWOuWfMBK1xQviFWwR6WMeXqkQ&s" alt="Administración">
+      </div>
+      <p>Aprende a organizar, planear y dirigir negocios o proyectos. Adquiere conocimientos sobre finanzas, gestión de recursos humanos y estrategias empresariales. ¡Conviértete en un líder con visión y capacidad!</p>
+    </div>
+
+    <div class="carrera">
+      <h2>Ciencia de Datos e Inteligencia Artificial</h2>
+      <div class="img-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRejsxkJaA1nFNqVLprx9yADivwzsTUqcE4Lw_JSKmassBiqb1hFssyzPv0dgZRSKvrCys&usqp=CAU" alt="Ciencia de Datos e IA">
+      </div>
+      <p>Analiza grandes cantidades de datos, identifica patrones y crea modelos de inteligencia artificial que resuelvan problemas. Esta carrera te prepara para el futuro de la tecnología, donde los datos y la automatización son clave.</p>
+    </div>
+
+    <h3>Puedes contactarnos a este número telefónico: 99-83-00-00-00</h3>
+  </div>
+</body>
+</html>
