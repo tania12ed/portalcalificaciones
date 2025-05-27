@@ -147,7 +147,7 @@
 
         if (nombre && matricula && turno && curp) {
           const li = document.createElement('li');
-          li.textContent = Nombre: ${nombre}, Matrícula: ${matricula}, Turno: ${turno}, CURP: ${curp};
+          li.textContent = `Nombre: ${nombre}, Matrícula: ${matricula}, Turno: ${turno}, CURP: ${curp}`;
           document.getElementById('listaAlumnos').appendChild(li);
 
           document.getElementById('nombreAlumno').value = "";
@@ -170,7 +170,7 @@
 
         if (nombre && id && turno && rfc) {
           const li = document.createElement('li');
-          li.textContent = Nombre: ${nombre}, ID: ${id}, Turno: ${turno}, RFC: ${rfc};
+          li.textContent = `Nombre: ${nombre}, ID: ${id}, Turno: ${turno}, RFC: ${rfc}`;
           document.getElementById('listaMaestros').appendChild(li);
 
           document.getElementById('nombreMaestro').value = "";
